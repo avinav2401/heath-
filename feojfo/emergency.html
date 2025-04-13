@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emergency Help - ProFitness</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .emergency-container {
+            max-width: 900px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: #2a2a2a;
+            border-radius: 10px;
+            color: #fff;
+        }
+
+        .emergency-section {
+            margin-bottom: 2rem;
+        }
+
+        .emergency-section h2 {
+            color: #ff4d4d;
+            margin-bottom: 1rem;
+        }
+
+        .emergency-section ul {
+            padding-left: 1.5rem;
+            list-style: disc;
+        }
+
+        .emergency-section p {
+            line-height: 1.6;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="logo">ProFitness</div>
+        <nav>
+            <div id="navLinks"></div>
+        </nav>
+    </header>
+
+    <div class="emergency-container fade-in">
+        <h1>Emergency Help & First Aid</h1>
+
+        <div class="emergency-section">
+            <h2>🏥 How to Perform CPR</h2>
+            <ul>
+                <li>Check responsiveness: Tap and shout.</li>
+                <li>Call emergency services immediately.</li>
+                <li>Begin chest compressions (100–120 per minute).</li>
+                <li>Push hard and fast at the center of the chest.</li>
+                <li>Give 2 rescue breaths after 30 compressions (if trained).</li>
+                <li>Repeat until help arrives or the person breathes.</li>
+            </ul>
+        </div>
+
+        <div class="emergency-section">
+            <h2>🔥 In Case of Burns</h2>
+            <ul>
+                <li>Cool the area under running water for 10–15 minutes.</li>
+                <li>Do not apply ice or greasy substances.</li>
+                <li>Cover with a clean cloth or bandage.</li>
+                <li>Seek medical help for severe burns.</li>
+            </ul>
+        </div>
+
+        <div class="emergency-section">
+            <h2>💔 Heart Attack Signs</h2>
+            <p>
+                Chest pain, shortness of breath, sweating, nausea. If someone shows these signs, call emergency services, keep them calm, and help them take aspirin if not allergic.
+            </p>
+        </div>
+
+        <div class="emergency-section">
+            <h2>🧠 Stroke Symptoms</h2>
+            <p>
+                Use the FAST method: Face drooping, Arm weakness, Speech difficulty, Time to call emergency.
+            </p>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-auth-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>

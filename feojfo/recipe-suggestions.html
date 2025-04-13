@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Healthy Recipes - ProFitness</title>
+  <link rel="stylesheet" href="styles.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f3f3;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #e67e22;
+      padding: 1rem 2rem;
+      text-align: center;
+      color: white;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem;
+    }
+
+    h2 {
+      color: #e67e22;
+      margin-bottom: 1.5rem;
+    }
+
+    .recipes-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .recipe-card {
+      background-color: white;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease;
+    }
+
+    .recipe-card:hover {
+      transform: scale(1.02);
+    }
+
+    .recipe-content {
+      padding: 1rem 1.5rem;
+    }
+
+    .recipe-content h3 {
+      color: #e67e22;
+      margin-top: 0;
+    }
+
+    .tags {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+
+    .nutrition {
+      font-size: 0.9rem;
+      color: #555;
+      margin-top: 0.5rem;
+    }
+
+    .section-title {
+      margin-top: 4rem;
+      text-align: center;
+    }
+
+    footer {
+      background-color: #e67e22;
+      color: white;
+      text-align: center;
+      padding: 1rem;
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>🍽️ ProFitness Healthy Recipes</h1>
+  <p>Nutritious, delicious, and fitness-friendly meals to power your day.</p>
+</header>
+
+<div class="container">
+  <h2 class="section-title">Top 10 Recipes</h2>
+  <div class="recipes-grid">
+
+    <!-- Recipe 1 -->
+    <div class="recipe-card">
+      <div class="recipe-content">
+        <h3>Protein-Packed Smoothie</h3>
+        <p><strong>Ingredients:</strong> 1 banana, 1 scoop whey protein, 1 cup almond milk, 1 tbsp peanut butter, ice cubes</p>
+        <p><strong>Instructions:</strong> Blend all ingredients until smooth. Enjoy chilled.</p>
+        <p class="nutrition">Calories: 280 | Protein: 25g | Carbs: 20g | Fat: 10g</p>
+        <p class="tags">💪 Pre-workout | 🥤 Quick</p>
+      </div>
+    </div>
+
+    <!-- Recipe 2 -->
+    <div class="recipe-card">
+      <div class="recipe-content">
+        <h3>Colorful Quinoa Salad</h3>
+        <p><strong>Ingredients:</strong> Cooked quinoa, cucumber, cherry tomatoes, red bell pepper, lemon juice, olive oil</p>
+        <p><strong>Instructions:</strong> Toss all veggies with quinoa, drizzle lemon & olive oil. Chill before serving.</p>
+        <p class="nutrition">Calories: 350 | Protein: 12g | Carbs: 40g | Fat: 14g</p>
+        <p class="tags">🌱 Vegan | 🌈 High Fiber</p>
+      </div>
+    </div>
+
+    <!-- Recipe 3 -->
+    <div class="recipe-card">
+      <div class="recipe-content">
+        <h3>Lemon Herb Grilled Chicken</h3>
+        <p><strong>Ingredients:</strong> Chicken breast, garlic, lemon juice, oregano, olive oil</p>
+        <p><strong>Instructions:</strong> Marinate chicken in all ingredients for 1 hour. Grill until cooked.</p>
+        <p class="nutrition">Calories: 300 | Protein: 35g | Carbs: 2g | Fat: 15g</p>
+        <p class="tags">🔥 High Protein | 🍗 Meal Prep</p>
+      </div>
+    </div>
+
+    <!-- Recipe 4 -->
+    <div class="recipe-card">
+      <div class="recipe-content">
+        <h3>Overnight Oats Bowl</h3>
+        <p><strong>Ingredients:</strong> Rolled oats, milk, chia seeds, berries, honey</p>
+        <p><strong>Instructions:</strong> Mix and refrigerate overnight. Top with fruits before serving.</p>
+        <p class="nutrition">Calories: 320 | Protein: 10g | Carbs: 45g | Fat: 9g</p>
+        <p class="tags">🌙 Easy | 🌾 Whole Grains</p>
+      </div>
+    </div>
+
+    <!-- Recipe 5 -->
+    <div class="recipe-card">
+      <div class="recipe-content">
+        <h3>Power Buddha Bowl</h3>
+        <p><strong>Ingredients:</strong> Brown rice, chickpeas, avocado, spinach, tahini dressing</p>
+        <p><strong>Instructions:</strong> Layer ingredients in a bowl. Top with tahini and lemon.</p>
+        <p class="nutrition">Calories: 450 | Protein: 18g | Carbs: 50g | Fat: 18g</p>
+        <p class="tags">🥗 Balanced | 🌿 Plant-based</p>
+      </div>
+    </div>
+
+    <!-- Recipe 6 -->
+    <div class="recipe-card">
+      <div class="recipe-content">
+        <h3>Tofu Veggie Stir Fry</h3>
+        <p><strong>Ingredients:</strong> Tofu, bell peppers, broccoli, soy sauce, garlic</p>
+        <p><strong>Instructions:</strong> Stir fry tofu and veggies on high heat with soy and garlic.</p>
+        <p class="nutrition">Calories: 320 | Protein: 20g | Carbs: 25g | Fat: 14g</p>
+        <p class="tags">🥢 Asian Inspired | 🧄 Quick Dinner</p>
+      </div>
+    </div>
+
+    <!-- Recipe 7 -->
+    <div class="recipe-card">
+      <div class="recipe-content">
+        <h3>Eggs on Avocado Toast</h3>
+        <p><strong>Ingredients:</strong> Whole grain bread, avocado, poached egg, chili flakes</p>
+        <p><strong>Instructions:</strong> Toast bread, mash avocado, top with egg & seasoning.</p>
+        <p class="nutrition">Calories: 310 | Protein: 14g | Carbs: 30g | Fat: 18g</p>
+        <p class="tags">🍳 Breakfast | 🥑 Keto Friendly</p>
+      </div>
+    </div>
+
+    <!-- Recipe 8 -->
+    <div class="recipe-card">
+      <div class="recipe-content">
+        <h3>Berry Smoothie Bowl</h3>
+        <p><strong>Ingredients:</strong> Frozen berries, yogurt, granola, chia seeds</p>
+        <p><strong>Instructions:</strong> Blend berries & yogurt. Top with granola and chia.</p>
+        <p class="nutrition">Calories: 280 | Protein: 12g | Carbs: 30g | Fat: 10g</p>
+        <p class="tags">🍓 Refreshing | 🥣 Snack</p>
+      </div>
+    </div>
+
+    <!-- Recipe 9 -->
+    <div class="recipe-card">
+      <div class="recipe-content">
+        <h3>Zucchini Noodles with Pesto</h3>
+        <p><strong>Ingredients:</strong> Spiralized zucchini, pesto, cherry tomatoes, parmesan</p>
+        <p><strong>Instructions:</strong> Toss zoodles in pesto. Add tomatoes and cheese.</p>
+        <p class="nutrition">Calories: 230 | Protein: 8g | Carbs: 10g | Fat: 18g</p>
+        <p class="tags">🥒 Low Carb | 🍃 Italian Style</p>
+      </div>
+    </div>
+
+    <!-- Recipe 10 -->
+    <div class="recipe-card">
+      <div class="recipe-content">
+        <h3>Homemade Energy Bars</h3>
+        <p><strong>Ingredients:</strong> Dates, oats, nuts, honey, dark chocolate</p>
+        <p><strong>Instructions:</strong> Blend, press in tray, chill and slice into bars.</p>
+        <p class="nutrition">Calories: 200 | Protein: 6g | Carbs: 25g | Fat: 10g</p>
+        <p class="tags">🏃 On-the-Go | 🍫 No Bake</p>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<footer>
+  <p>&copy; 2025 ProFitness | Eat Smart. Train Hard. Live Well.</p>
+</footer>
+
+<script src="script.js"></script>
+</body>
+</html>

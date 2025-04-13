@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>ProFitness Shop - Supplements</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <style>
+    :root {
+      --primary-red: #ff4d4d;
+      --dark-bg: #0a0a0a;
+      --card-bg: #1a1a1a;
+      --accent-green: #00cc66;
+      --box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    body {
+      background-color: var(--dark-bg);
+      color: white;
+      font-family: 'Arial', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+
+    .shop-header {
+      background: var(--card-bg);
+      padding: 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      box-shadow: var(--box-shadow);
+    }
+
+    .back-btn {
+      color: white;
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: color 0.3s ease;
+      font-weight: bold;
+    }
+
+    .back-btn:hover {
+      color: var(--primary-red);
+    }
+
+    .category-nav {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+
+    .category-btn {
+      background: none;
+      border: none;
+      color: white;
+      font-size: 1rem;
+      cursor: pointer;
+      padding: 0.5rem 1rem;
+      position: relative;
+      transition: all 0.3s ease;
+    }
+
+    .category-btn::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--primary-red);
+      transition: width 0.3s ease;
+    }
+
+    .category-btn:hover::after,
+    .category-btn.active::after {
+      width: 100%;
+    }
+
+    .category-btn.active {
+      color: var(--primary-red);
+    }
+
+    .cart-icon {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .cart-icon:hover {
+      transform: scale(1.1);
+    }
+
+    .cart-count {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: var(--primary-red);
+      color: white;
+      padding: 3px 8px;
+      border-radius: 50%;
+      font-size: 0.8rem;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .shop-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 2rem;
+    }
+
+    .shop-item {
+      background: var(--card-bg);
+      border-radius: 10px;
+      padding: 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      overflow: hidden;
+      position: relative;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      animation: fadeIn 0.5s ease forwards;
+    }
+
+    .shop-item:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--box-shadow);
+    }
+
+    .shop-item img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+      transition: transform 0.3s ease;
+    }
+
+    .shop-item:hover img {
+      transform: scale(1.05);
+    }
+
+    .shop-item h3 {
+      margin: 1rem 0 0.5rem;
+      font-size: 1.3rem;
+    }
+
+    .shop-item p {
+      color: var(--accent-green);
+      font-size: 1.4rem;
+      margin: 1rem 0;
+      font-weight: bold;
+    }
+
+    .add-to-cart {
+      background: linear-gradient(45deg, var(--primary-red), #ff3333);
+      color: white;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 25px;
+      cursor: pointer;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: transform 0.2s ease, opacity 0.2s ease;
+      width: 100%;
+    }
+
+    .add-to-cart:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-5px); }
+    }
+
+    .cart-bounce {
+      animation: bounce 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .shop-header {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+      }
+
+      .category-nav {
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="shop-header">
+    <a href="index.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Gym</a>
+    <nav class="category-nav">
+      <button class="category-btn active" data-category="all">All Supplements</button>
+      <button class="category-btn" data-category="protein">Protein Powders</button>
+      <button class="category-btn" data-category="shakes">Protein Shakes</button>
+      <button class="category-btn" data-category="bars">Energy Bars</button>
+    </nav>
+    <div class="cart-icon">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="cart-count">0</span>
+    </div>
+  </header>
+
+  <div class="container">
+    <div class="shop-items">
+      <div class="shop-item" data-category="protein">
+        <img src="https://images.unsplash.com/photo-1594067501530-1a7344b40472" alt="Whey Protein Powder">
+        <h3>Whey Protein Powder</h3>
+        <p>₹2,499</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="shop-item" data-category="protein">
+        <img src="https://images.unsplash.com/photo-1620832555695-8570f48ed848" alt="Creatine Powder">
+        <h3>Creatine Powder</h3>
+        <p>₹1,799</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="shop-item" data-category="shakes">
+        <img src="https://images.unsplash.com/photo-1600408975912-ea59761778a9" alt="Protein Shake">
+        <h3>Protein Shake</h3>
+        <p>₹1,299</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+
+      <div class="shop-item" data-category="bars">
+        <img src="https://images.unsplash.com/photo-1591295572030-8c68a1316ac9" alt="Energy Bars">
+        <h3>Energy Bars</h3>
+        <p>₹599</p>
+        <button class="add-to-cart">Add to Cart</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const cartIcon = document.querySelector('.cart-icon');
+    const cartCountElement = document.querySelector('.cart-count');
+
+    function updateCartDisplay() {
+      const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+      cartCountElement.textContent = totalItems;
+    }
+
+    function saveCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+    }
+
+    function animateCartIcon() {
+      cartIcon.classList.add('cart-bounce');
+      setTimeout(() => cartIcon.classList.remove('cart-bounce'), 500);
+    }
+
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+      button.addEventListener('click', function () {
+        const itemCard = this.closest('.shop-item');
+        const name = itemCard.querySelector('h3').textContent;
+        const priceText = itemCard.querySelector('p').textContent;
+        const price = parseFloat(priceText.replace(/[₹,]/g, ''));
+        const image = itemCard.querySelector('img').src;
+
+        const existingItem = cart.find(item => item.name === name);
+        if (existingItem) {
+          existingItem.quantity += 1;
+        } else {
+          cart.push({ name, price, image, quantity: 1 });
+        }
+
+        saveCart();
+        updateCartDisplay();
+        animateCartIcon();
+
+        this.textContent = 'Added!';
+        this.style.background = 'green';
+        setTimeout(() => {
+          this.textContent = 'Add to Cart';
+          this.style.background = '';
+        }, 1000);
+      });
+    });
+
+    cartIcon.addEventListener('click', () => {
+      if (cart.length > 0) {
+        window.location.href = 'payment.html';
+      } else {
+        alert('Your cart is empty!');
+      }
+    });
+
+    const categoryButtons = document.querySelectorAll('.category-btn');
+    const shopItems = document.querySelectorAll('.shop-item');
+
+    categoryButtons.forEach(button => {
+      button.addEventListener('click', () => {
+        categoryButtons.forEach(btn => btn.classList.remove('active'));
+        button.classList.add('active');
+        const category = button.dataset.category;
+        shopItems.forEach(item => {
+          item.style.display = category === 'all' || item.dataset.category === category ? 'block' : 'none';
+        });
+      });
+    });
+
+    updateCartDisplay();
+  </script>
+</body>
+</html>

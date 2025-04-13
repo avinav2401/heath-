@@ -1,0 +1,33 @@
+<div class="container fade-in">
+    <h2>Your Profile</h2>
+    <div class="profile-info">
+        <div id="profileView">
+            <p>Name: <span id="userName">Guest</span></p>
+            <p>Email: <span id="userEmail"></span></p>
+            <button onclick="showEditForm()">Edit Profile</button>
+            <button onclick="logout()">Logout</button>
+        </div>
+        
+        <div id="profileEdit" style="display: none;">
+            <form id="editForm" onsubmit="updateProfile(event)">
+                <div class="form-group">
+                    <label>Display Name:</label>
+                    <input type="text" id="editName" required>
+                </div>
+                <div class="form-group">
+                    <label>Age:</label>
+                    <input type="number" id="editAge">
+                </div>
+                <div class="form-group">
+                    <label>Weight (kg):</label>
+                    <input type="number" id="editWeight">
+                </div>
+                <button type="submit">Save Changes</button>
+                <button type="button" onclick="cancelEdit()">Cancel</button>
+            </form>
+        </div>
+
+        <h3>Your Saved Routines</h3>
+        <div id="userRoutines"></div>
+    </div>
+</div>

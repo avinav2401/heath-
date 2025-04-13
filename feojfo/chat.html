@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Macro Percentage Calculator</title>
+  <style>
+    :root {
+      --protein: #ff6b6b;  /* Red-ish for Protein */
+      --carbs: #4ecdc4;    /* Teal for Carbs */
+      --fat: #ffe66d;      /* Yellow for Fat */
+      --bg: #111111;
+      --card-bg: rgba(30, 30, 30, 0.9);
+      --text: #ffffff;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 2rem;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 2rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .header h1 {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .input-section {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .input-card {
+      padding: 1.5rem;
+      border-radius: 15px;
+      background: linear-gradient(145deg, #1a1a1a, #2a2a2a);
+      border: 1px solid rgba(255,255,255,0.1);
+      animation: cardEntrance 0.6s ease-out forwards;
+      opacity: 0;
+      transform: translateY(20px);
+    }
+
+    .input-card:nth-child(1) { animation-delay: 0.1s; }
+    .input-card:nth-child(2) { animation-delay: 0.2s; }
+    .input-card:nth-child(3) { animation-delay: 0.3s; }
+
+    /* Highlight borders */
+    .input-card.protein {
+      border-left: 5px solid var(--protein);
+    }
+
+    .input-card.carbs {
+      border-left: 5px solid var(--carbs);
+    }
+
+    .input-card.fat {
+      border-left: 5px solid var(--fat);
+    }
+
+    .input-group {
+      margin: 1rem 0;
+    }
+
+    .macro-input {
+      width: 100%;
+      padding: 0.8rem;
+      border: 1px solid #333333;
+      border-radius: 10px;
+      font-size: 1rem;
+      background: #2a2a2a;
+      color: var(--text);
+      text-align: center;
+    }
+
+    .macro-input:focus {
+      outline: none;
+      border-color: var(--text);
+      box-shadow: 0 0 0 2px rgba(255,255,255,0.1);
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      padding: 1rem;
+      border: none;
+      border-radius: 10px;
+      background: #333333;
+      color: white;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.4s;
+      position: relative;
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    .submit-btn:hover {
+      background: #444444;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+
+    .submit-btn::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: linear-gradient(45deg, transparent 25%, rgba(255,255,255,0.1) 50%, transparent 75%);
+      animation: shine 2s infinite;
+    }
+
+    .results {
+      background: rgba(20, 20, 20, 0.8);
+      border-radius: 15px;
+      padding: 1.5rem;
+      margin-top: 1rem;
+      animation: fadeIn 0.6s ease-in;
+    }
+
+    .result-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .result-card {
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      transform: translateY(20px);
+      opacity: 0;
+      animation: resultCardEntrance 0.6s ease-out forwards;
+    }
+
+    .result-card:nth-child(1) { animation-delay: 0.1s; }
+    .result-card:nth-child(2) { animation-delay: 0.2s; }
+    .result-card:nth-child(3) { animation-delay: 0.3s; }
+
+    .percentage {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 0.5rem 0;
+    }
+
+    .progress-container {
+      height: 10px;
+      background: rgba(255,255,255,0.05);
+      border-radius: 5px;
+      overflow: hidden;
+      margin: 1rem 0;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0;
+      border-radius: 5px;
+      animation: progressExpand 0.8s ease-out forwards;
+    }
+
+    .protein { color: var(--protein); }
+    .carbs { color: var(--carbs); }
+    .fat { color: var(--fat); }
+
+    .bg-protein { background: var(--protein); }
+    .bg-carbs { background: var(--carbs); }
+    .bg-fat { background: var(--fat); }
+
+    @keyframes cardEntrance {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes shine {
+      from { transform: rotate(0deg) translateX(-50%); }
+      to { transform: rotate(360deg) translateX(50%); }
+    }
+
+    @keyframes progressExpand {
+      from { width: 0; }
+      to { width: var(--target-width); }
+    }
+
+    @keyframes resultCardEntrance {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .input-section, .result-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Macro Percentage Calculator</h1>
+      <p>Enter your macro amounts to see their percentage distribution</p>
+    </div>
+
+    <div class="input-section">
+      <div class="input-card protein">
+        <h3>Protein (g)</h3>
+        <div class="input-group">
+          <input type="number" class="macro-input protein" id="proteinInput" placeholder="0" min="0">
+        </div>
+      </div>
+
+      <div class="input-card carbs">
+        <h3>Carbs (g)</h3>
+        <div class="input-group">
+          <input type="number" class="macro-input carbs" id="carbsInput" placeholder="0" min="0">
+        </div>
+      </div>
+
+      <div class="input-card fat">
+        <h3>Fat (g)</h3>
+        <div class="input-group">
+          <input type="number" class="macro-input fat" id="fatInput" placeholder="0" min="0">
+        </div>
+      </div>
+    </div>
+
+    <button class="submit-btn" onclick="calculatePercentages()">Calculate Percentages</button>
+
+    <div class="results" id="results" style="display: none;">
+      <h2>Macro Distribution</h2>
+      <div class="result-grid">
+        <div class="result-card">
+          <h3 class="protein">Protein</h3>
+          <div class="percentage protein" id="proteinPercentage">0%</div>
+          <div class="progress-container">
+            <div class="progress-bar bg-protein" id="proteinProgressBar"></div>
+          </div>
+          <div id="proteinGrams" class="protein">0g</div>
+        </div>
+        <div class="result-card">
+          <h3 class="carbs">Carbs</h3>
+          <div class="percentage carbs" id="carbsPercentage">0%</div>
+          <div class="progress-container">
+            <div class="progress-bar bg-carbs" id="carbsProgressBar"></div>
+          </div>
+          <div id="carbsGrams" class="carbs">0g</div>
+        </div>
+        <div class="result-card">
+          <h3 class="fat">Fat</h3>
+          <div class="percentage fat" id="fatPercentage">0%</div>
+          <div class="progress-container">
+            <div class="progress-bar bg-fat" id="fatProgressBar"></div>
+          </div>
+          <div id="fatGrams" class="fat">0g</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function calculatePercentages() {
+      const protein = parseFloat(document.getElementById('proteinInput').value) || 0;
+      const carbs = parseFloat(document.getElementById('carbsInput').value) || 0;
+      const fat = parseFloat(document.getElementById('fatInput').value) || 0;
+
+      const total = protein + carbs + fat;
+
+      if (total <= 0) {
+        alert('Please enter at least one macro value');
+        return;
+      }
+
+      const proteinPercent = Math.round((protein / total) * 100);
+      const carbsPercent = Math.round((carbs / total) * 100);
+      const fatPercent = Math.round((fat / total) * 100);
+
+      document.getElementById('proteinPercentage').textContent = proteinPercent + '%';
+      document.getElementById('carbsPercentage').textContent = carbsPercent + '%';
+      document.getElementById('fatPercentage').textContent = fatPercent + '%';
+
+      document.getElementById('proteinGrams').textContent = protein + 'g';
+      document.getElementById('carbsGrams').textContent = carbs + 'g';
+      document.getElementById('fatGrams').textContent = fat + 'g';
+
+      animateProgress('proteinProgressBar', proteinPercent);
+      animateProgress('carbsProgressBar', carbsPercent);
+      animateProgress('fatProgressBar', fatPercent);
+
+      const results = document.getElementById('results');
+      results.style.display = 'block';
+      results.style.animation = 'fadeIn 0.6s ease-in';
+    }
+
+    function animateProgress(id, value) {
+      const bar = document.getElementById(id);
+      bar.style.width = value + '%';
+    }
+  </script>
+</body>
+</html>

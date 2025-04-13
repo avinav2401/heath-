@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProFitness - Strength Training Planner</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      color: #2d3436;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    header {
+      background: linear-gradient(135deg, #2d3436 0%, #000000 100%);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      animation: slideDown 0.8s ease-out;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2.5rem;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+      transform: translateY(-20px);
+      opacity: 0;
+      animation: fadeUp 0.6s 0.3s ease-out forwards;
+    }
+
+    h2 {
+      color: #2d3436;
+      font-size: 2rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 60px;
+      height: 4px;
+      background: #00b894;
+      border-radius: 2px;
+    }
+
+    .form-group {
+      margin-bottom: 1.8rem;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.8rem;
+      font-weight: 600;
+      color: #636e72;
+    }
+
+    select {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #dfe6e9;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+      appearance: none;
+    }
+
+    select:focus {
+      border-color: #00b894;
+      box-shadow: 0 0 0 3px rgba(0, 184, 148, 0.2);
+      outline: none;
+    }
+
+    button {
+      background: linear-gradient(135deg, #00b894 0%, #00997b 100%);
+      color: white;
+      padding: 1.2rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      width: 100%;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 184, 148, 0.3);
+    }
+
+    .back-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.8rem 1.5rem;
+      background: #0984e3;
+      color: white;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+      margin-top: 2rem;
+    }
+
+    .back-button:hover {
+      transform: translateX(-5px);
+    }
+
+    #routine {
+      margin-top: 2rem;
+      background: #f8fff9;
+      border-radius: 15px;
+      padding: 2rem;
+      border-left: 5px solid #00b894;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .exercise-list {
+      list-style: none;
+      margin-top: 1rem;
+    }
+
+    .exercise-item {
+      padding: 1rem;
+      margin: 0.8rem 0;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 3px 10px rgba(0, 0, 0, 0.05);
+      animation: slideIn 0.4s ease-out forwards;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .exercise-item::before {
+      content: '🏋️';
+      font-size: 1.2rem;
+    }
+
+    @keyframes slideDown {
+      from { transform: translateY(-100%); opacity: 0 }
+      to { transform: translateY(0); opacity: 1 }
+    }
+
+    @keyframes fadeUp {
+      to { transform: translateY(0); opacity: 1 }
+    }
+
+    @keyframes fadeInUp {
+      to { opacity: 1; transform: translateY(0) }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(20px); opacity: 0 }
+      to { transform: translateX(0); opacity: 1 }
+    }
+
+    .exercise-item:nth-child(1) { animation-delay: 0.1s }
+    .exercise-item:nth-child(2) { animation-delay: 0.2s }
+    .exercise-item:nth-child(3) { animation-delay: 0.3s }
+    .exercise-item:nth-child(4) { animation-delay: 0.4s }
+    .exercise-item:nth-child(5) { animation-delay: 0.5s }
+
+    @media (max-width: 768px) {
+      .container {
+        margin: 1rem;
+        padding: 1.5rem;
+      }
+      
+      h2 { font-size: 1.7rem }
+      
+      .exercise-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>ProFitness Strength Planner</h1>
+    <p>Your personalized strength training program</p>
+  </header>
+
+  <div class="container">
+    <h2>Create Your Workout Plan</h2>
+    <form id="strengthForm">
+      <div class="form-group">
+        <label for="gender">Gender</label>
+        <select id="gender" required>
+          <option value="male">Male</option>
+          <option value="female">Female</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="age-group">Age Group</label>
+        <select id="age-group" required>
+          <option value="teenager">Teen (13-19)</option>
+          <option value="young-adult">Young Adult (20-35)</option>
+          <option value="adult">Adult (36-50)</option>
+          <option value="senior">Senior (51+)</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="training-type">Training Focus</label>
+        <select id="training-type" required>
+          <option value="powerlifting">Powerlifting</option>
+          <option value="bodybuilding">Bodybuilding</option>
+          <option value="crossfit">CrossFit</option>
+          <option value="functional">Functional Training</option>
+          <option value="olympic">Olympic Lifting</option>
+          <option value="strongman">Strongman</option>
+          <option value="aerobic">Aerobic Strength</option>
+          <option value="isometric">Isometric Training</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="duration">Session Duration</label>
+        <select id="duration" required>
+          <option value="30">30 Minutes</option>
+          <option value="45">45 Minutes</option>
+          <option value="60">60 Minutes</option>
+          <option value="75">75 Minutes</option>
+          <option value="90">90 Minutes</option>
+        </select>
+      </div>
+
+      <button type="submit">Generate Plan</button>
+    </form>
+
+    <div id="routine">
+      <h3>Your Custom Workout Plan</h3>
+      <ul class="exercise-list"></ul>
+    </div>
+
+    <a href="index.html" class="back-button">← Return to Dashboard</a>
+  </div>
+
+  <script>
+    const exerciseDatabase = {
+      teenager: {
+        male: {
+          powerlifting: ["Barbell Squats (4x6)", "Deadlifts (4x5)", "Bench Press (4x6)", "Pull-ups (3x8)"],
+          bodybuilding: ["Incline Dumbbell Press (4x10)", "Lat Pulldown (4x12)", "Bicep Curls (3x15)", "Tricep Pushdowns (3x15)"],
+          crossfit: ["Box Jumps (4x10)", "Kettlebell Swings (4x15)", "Burpees (3x10)", "Wall Balls (3x15)"],
+          functional: ["Medicine Ball Slams (3x10)", "TRX Rows (4x8)", "Agility Ladder Drills (5x)"],
+          olympic: ["Power Clean (5x3)", "Snatch (4x3)", "Overhead Squats (4x5)"],
+          strongman: ["Tire Flips (3x10)", "Farmer’s Walk (3x30m)", "Atlas Stones (3x5)"],
+          aerobic: ["Rowing Machine (5x500m)", "Jump Rope (5x2 min)", "Mountain Climbers (4x30s)"],
+          isometric: ["Plank (3x60s)", "Wall Sit (3x90s)", "Leg Raises (3x30s)"]
+        },
+        female: {
+          powerlifting: ["Squats (4x6)", "Deadlifts (4x5)", "Overhead Press (3x8)", "Bent-over Rows (3x10)"],
+          bodybuilding: ["Leg Press (4x12)", "Lunges (4x12)", "Dumbbell Shoulder Press (3x12)", "Tricep Dips (3x15)"],
+          crossfit: ["Jump Rope (3x2 min)", "Kettlebell Swings (4x12)", "Push-ups (3x10)", "Box Jumps (4x10)"],
+          functional: ["TRX Rows (4x8)", "Push-ups (3x10)", "Kettlebell Goblet Squats (3x10)"],
+          olympic: ["Clean and Jerk (5x3)", "Power Snatch (4x3)", "Overhead Squats (4x5)"],
+          strongman: ["Sled Pushes (3x40m)", "Kettlebell Farmer's Walk (3x20m)", "Tire Flips (3x5)"],
+          aerobic: ["Running (3x10 min)", "Burpees (3x10)", "Mountain Climbers (3x30s)"],
+          isometric: ["Plank (4x45s)", "Wall Sit (3x90s)", "Side Plank (3x30s each side)"]
+        }
+      },
+      // Repeat for other age groups...
+    };
+
+    document.getElementById('strengthForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const gender = document.getElementById('gender').value;
+      const ageGroup = document.getElementById('age-group').value;
+      const trainingType = document.getElementById('training-type').value;
+
+      const selectedExercises = exerciseDatabase[ageGroup][gender][trainingType];
+
+      const routineContainer = document.getElementById('routine');
+      const exerciseList = routineContainer.querySelector('.exercise-list');
+      exerciseList.innerHTML = ''; // Clear previous exercises
+
+      selectedExercises.forEach(exercise => {
+        const listItem = document.createElement('li');
+        listItem.classList.add('exercise-item');
+        listItem.textContent = exercise;
+        exerciseList.appendChild(listItem);
+      });
+
+      routineContainer.style.opacity = 1;
+      routineContainer.style.transform = 'translateY(0)';
+    });
+  </script>
+</body>
+</html>

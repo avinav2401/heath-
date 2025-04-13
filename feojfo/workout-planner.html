@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Workout Planner - ProFitness</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f7f7f7;
+      color: #333;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #1abc9c;
+      color: white;
+      padding: 1.5rem 0;
+      text-align: center;
+    }
+    header h1 {
+      margin: 0;
+      font-size: 2.5rem;
+    }
+    .container {
+      width: 80%;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    h2 {
+      color: #1abc9c;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .form-group {
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+    .form-group label {
+      font-size: 1.1rem;
+      color: #333;
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 1rem;
+      margin-top: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      font-size: 1rem;
+      box-sizing: border-box;
+    }
+    button {
+      padding: 1rem 2rem;
+      background-color: #1abc9c;
+      color: white;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      width: 50%;
+      margin-top: 1.5rem;
+    }
+    button:hover {
+      background-color: #16a085;
+    }
+    #workoutPlans {
+      margin-top: 3rem;
+      text-align: left;
+    }
+    #workoutPlans h3 {
+      color: #2c3e50;
+      font-size: 1.6rem;
+    }
+    .workout-plan {
+      background-color: #ecf0f1;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    }
+    .workout-plan h4 {
+      color: #2980b9;
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+    .workout-plan p {
+      font-size: 1.1rem;
+      color: #7f8c8d;
+      margin: 0.5rem 0;
+    }
+    /* New Styling for Responsiveness */
+    @media (max-width: 768px) {
+      .container {
+        width: 90%;
+      }
+      button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header -->
+  <header>
+    <h1>ProFitness Workout Planner</h1>
+  </header>
+
+  <!-- Workout Planner Section -->
+  <div class="container">
+    <h2>Create Your Workout Plan</h2>
+    
+    <!-- Workout Plan Form -->
+    <form id="workoutForm">
+      <div class="form-group">
+        <label for="workoutName">Workout Name:</label>
+        <input type="text" id="workoutName" placeholder="Enter workout name" required>
+      </div>
+      <div class="form-group">
+        <label for="workoutType">Workout Type:</label>
+        <select id="workoutType" required>
+           
+            <option value="flexibility">Flexibility</option>
+          
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="duration">Duration (minutes):</label>
+        <input type="number" id="duration" placeholder="Enter duration in minutes" required>
+      </div>
+      <button type="submit">Save Workout Plan</button>
+    </form>
+
+    <!-- Saved Workout Plans Section -->
+    <div id="workoutPlans">
+      <h3>Your Saved Workout Plans</h3>
+      <!-- Display workout plans dynamically -->
+    </div>
+  </div>
+
+  <!-- JavaScript -->
+  <script src="script.js"></script>
+  <script>
+    // Script to handle workout plan saving (for demo purposes)
+    document.getElementById('workoutForm').addEventListener('submit', function(event) {
+      event.preventDefault();
+      
+      // Retrieve input values
+      const workoutName = document.getElementById('workoutName').value;
+      const workoutType = document.getElementById('workoutType').value;
+      const duration = document.getElementById('duration').value;
+
+      // Create a new workout plan element
+      const workoutPlanDiv = document.createElement('div');
+      workoutPlanDiv.classList.add('workout-plan');
+      workoutPlanDiv.innerHTML = `
+        <h4>${workoutName}</h4>
+        <p><strong>Type:</strong> ${workoutType}</p>
+        <p><strong>Duration:</strong> ${duration} minutes</p>
+      `;
+
+      // Append to the saved workout plans section
+      document.getElementById('workoutPlans').appendChild(workoutPlanDiv);
+
+      // Clear form fields
+      document.getElementById('workoutForm').reset();
+    });
+  </script>
+</body>
+</html>

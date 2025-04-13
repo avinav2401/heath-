@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Checkout</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+  <link rel="stylesheet" href="style.css"/>
+  <link rel="stylesheet" href="css/style.css"/>
+  <style>
+    .payment-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem;
+      border-bottom: 1px solid #eee;
+    }
+
+    .remove-btn {
+      background: none;
+      border: none;
+      color: #ff4444;
+      cursor: pointer;
+      margin-left: auto;
+      padding: 5px;
+    }
+
+    .remove-btn:hover {
+      color: #cc0000;
+    }
+
+    .payment-container {
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #fff;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    .payment-form input,
+    .payment-form button {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+    }
+
+    .add-to-cart {
+      background: #222;
+      color: #fff;
+      cursor: pointer;
+      border: none;
+    }
+  </style>
+</head>
+<body>
+  <header class="shop-header">
+    <a href="shop.html" class="back-btn"><i class="fas fa-arrow-left"></i> Back to Shop</a>
+    <div class="cart-icon">
+      <i class="fas fa-shopping-cart"></i>
+      <span class="cart-count">0</span>
+    </div>
+  </header>
+
+  <div class="payment-container">
+    <h1>Checkout</h1>
+
+    <div class="payment-items"></div>
+
+    <div class="payment-total">
+      Total: ₹<span id="paymentTotal">0.00</span>
+    </div>
+
+    <form class="payment-form">
+      <input type="text" placeholder="Full Name" required>
+      <input type="email" placeholder="Email" required>
+      <input type="text" placeholder="Card Number" required>
+      <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+        <input type="text" placeholder="MM/YY" required>
+        <input type="text" placeholder="CVC" required>
+      </div>
+      <button type="submit" class="add-to-cart">Complete Payment</button>
+    </form>
+  </div>
+
+  <script>
+    function renderPaymentItems() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const paymentItems = document.querySelector('.payment-items');
+      paymentItems.innerHTML = '';
+
+      cart.forEach((item, index) => {
+        paymentItems.innerHTML += `
+          <div class="payment-item">
+            <img src="${item.image}" width="60" height="60">
+            <div>${item.name}</div>
+            <div>₹${item.price} x ${item.quantity}</div>
+            <button class="remove-btn" onclick="removeItem(${index})">
+              <i class="fas fa-times"></i>
+            </button>
+          </div>
+        `;
+      });
+    }
+
+    function updateTotal() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const total = cart.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      document.querySelector('#paymentTotal').textContent = total.toFixed(2);
+    }
+
+    function updateCartCount() {
+      const cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const count = cart.reduce((sum, item) => sum + item.quantity, 0);
+      document.querySelector('.cart-count').textContent = count;
+    }
+
+    function removeItem(index) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      if (index >= 0 && index < cart.length) {
+        cart.splice(index, 1);
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderPaymentItems();
+        updateTotal();
+        updateCartCount();
+      }
+    }
+
+    // Initial Load
+    renderPaymentItems();
+    updateTotal();
+    updateCartCount();
+
+    document.querySelector('form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      localStorage.removeItem('cart');
+      alert('Payment successful! Thank you for your purchase.');
+      window.location.href = 'shop.html';
+    });
+  </script>
+</body>
+</html>

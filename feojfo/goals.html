@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Goals & Challenges - ProFitness</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #000;
+      color: #fff;
+      margin: 0;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(90deg, #1e90ff, #ff4d4d);
+      color: white;
+      padding: 2rem;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(255, 255, 255, 0.2);
+      animation: fadeInDown 1s ease;
+    }
+
+    header h1 {
+      font-size: 3rem;
+      margin: 0;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+    }
+
+    .container {
+      width: 85%;
+      margin: 3rem auto;
+      padding: 2rem;
+      background-color: #222; /* Changed to dark grey */
+      color: #fff;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(255, 255, 255, 0.05);
+      animation: fadeInUp 1.5s ease;
+    }
+
+    h2 {
+      color: #1e90ff;
+    }
+
+    h3 {
+      color: #ff4d4d;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 1rem;
+      border: 2px solid #fff;
+      border-radius: 8px;
+      font-size: 1rem;
+      background: #444; /* darker grey input background */
+      color: #fff;       /* white text */
+      transition: all 0.3s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: #1e90ff;
+      box-shadow: 0 0 10px rgba(30, 144, 255, 0.3);
+      outline: none;
+    }
+
+    button {
+      padding: 1rem 2.5rem;
+      background: linear-gradient(90deg, #1e90ff, #ff4d4d);
+      color: white;
+      border: none;
+      border-radius: 30px;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #goalList {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 2px solid #fff;
+    }
+
+    .goal-item {
+      background: #333; /* dark grey for goal cards */
+      padding: 1rem;
+      border-left: 4px solid #1e90ff;
+      border-radius: 5px;
+      margin-bottom: 1rem;
+      animation: slideIn 0.5s ease;
+    }
+
+    #smsModal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #111;
+      color: #fff;
+      padding: 2rem;
+      border-radius: 12px;
+      border: 2px solid #1e90ff;
+      display: none;
+      z-index: 1000;
+      text-align: center;
+    }
+
+    .modal-icon {
+      font-size: 3rem;
+      color: #1e90ff;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(-100px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>⚡ ProFitness ⚡</h1>
+  </header>
+
+  <div class="container">
+    <h2>🎯 Set Your Fitness Goals</h2>
+    <form id="goalForm">
+      <div class="form-group">
+        <label for="goalTitle">Goal Title:</label>
+        <input type="text" id="goalTitle" required>
+      </div>
+      <div class="form-group">
+        <label for="goalDescription">Goal Description:</label>
+        <textarea id="goalDescription" rows="4" required></textarea>
+      </div>
+      <div class="form-group">
+        <label for="goalDeadline">Deadline:</label>
+        <input type="date" id="goalDeadline" required>
+      </div>
+      <div class="form-group">
+        <label for="phoneNumber">Mobile Number (India):</label>
+        <input type="tel" id="phoneNumber" placeholder="+91 9876543210" pattern="^\+91[0-9]{10}$" required>
+      </div>
+      <button type="submit">🚀 Set Goal</button>
+    </form>
+
+    <div id="goalList">
+      <h3>🔥 Your Goals</h3>
+    </div>
+  </div>
+
+  <div id="smsModal">
+    <i class="fas fa-check-circle modal-icon"></i>
+    <h3>Goal sent to your mobile via SMS!</h3>
+    <p>Please check your phone 📱</p>
+  </div>
+
+  <script>
+    document.getElementById('goalForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const modal = document.getElementById('smsModal');
+      modal.style.display = 'block';
+      setTimeout(() => {
+        modal.style.display = 'none';
+      }, 3000);
+
+      const goalTitle = document.getElementById('goalTitle').value;
+      const goalDesc = document.getElementById('goalDescription').value;
+      const goalDate = document.getElementById('goalDeadline').value;
+
+      const goalItem = document.createElement('div');
+      goalItem.className = 'goal-item';
+      goalItem.innerHTML = `
+        <h4>${goalTitle}</h4>
+        <p>${goalDesc}</p>
+        <small>Deadline: ${goalDate}</small>
+      `;
+
+      document.getElementById('goalList').appendChild(goalItem);
+      this.reset();
+    });
+  </script>
+</body>
+</html>

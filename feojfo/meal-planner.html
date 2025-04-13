@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Meal Planner</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .meal-container {
+        max-width: 700px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: #2a2a2a;
+        border-radius: 10px;
+        color: white;
+    }
+
+    .meal-container h2 {
+        text-align: center;
+        color: #00cc99;
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1rem;
+    }
+
+    input {
+        width: 100%;
+        padding: 0.7rem;
+        border-radius: 6px;
+        border: none;
+        background: #333;
+        color: white;
+    }
+
+    button {
+        padding: 0.7rem 2rem;
+        background-color: #00cc99;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .meal-list {
+        margin-top: 2rem;
+    }
+
+    .meal-item {
+        background: #1a1a1a;
+        padding: 1rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="meal-container">
+    <h2>Meal Planner & Calorie Tracker</h2>
+    <form id="mealForm">
+      <div class="form-group">
+        <label>Meal Name:</label>
+        <input type="text" id="mealName" required>
+      </div>
+      <div class="form-group">
+        <label>Calories:</label>
+        <input type="number" id="mealCalories" required>
+      </div>
+      <button type="submit">Add Meal</button>
+    </form>
+
+    <div class="meal-list" id="mealList"></div>
+    <p><strong>Total Calories:</strong> <span id="totalCalories">0</span> kcal</p>
+  </div>
+
+  <script>
+    const mealForm = document.getElementById('mealForm');
+    const mealList = document.getElementById('mealList');
+    const totalCaloriesDisplay = document.getElementById('totalCalories');
+    let totalCalories = 0;
+
+    mealForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const name = document.getElementById('mealName').value;
+      const calories = parseInt(document.getElementById('mealCalories').value);
+
+      totalCalories += calories;
+      totalCaloriesDisplay.textContent = totalCalories;
+
+      const mealItem = document.createElement('div');
+      mealItem.classList.add('meal-item');
+      mealItem.innerHTML = `<strong>${name}</strong> - ${calories} kcal`;
+      mealList.appendChild(mealItem);
+
+      mealForm.reset();
+    });
+  </script>
+</body>
+</html>

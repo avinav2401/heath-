@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gym Exercise Planner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        body {
+            background: #1a1a1a;
+            color: #fff;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .user-form {
+            background: #2a2a2a;
+            padding: 2rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        input, select, .checkbox-group {
+            width: 100%;
+            padding: 0.5rem;
+            margin-top: 0.5rem;
+            background: #333;
+            border: 1px solid #444;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .exercise-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .exercise-card {
+            background: #2a2a2a;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s ease;
+        }
+
+        .exercise-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .exercise-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .exercise-info {
+            padding: 1rem;
+        }
+
+        h2, h3 {
+            color: #ff4d4d;
+            margin-bottom: 1rem;
+        }
+
+        button {
+            background: #ff4d4d;
+            color: white;
+            border: none;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #ff6666;
+        }
+
+        .routine-result {
+            margin-top: 2rem;
+            padding: 2rem;
+            background: #2a2a2a;
+            border-radius: 10px;
+            display: none;
+        }
+
+        .checkbox-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .checkbox-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .fade-in {
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="user-form">
+            <h2>Create Your Workout Plan</h2>
+            <form id="userForm">
+                <div class="form-group">
+                    <label>Name:</label>
+                    <input type="text" id="name" required>
+                </div>
+                <div class="form-group">
+                    <label>Age:</label>
+                    <input type="number" id="age" required>
+                </div>
+                <div class="form-group">
+                    <label>Gender:</label>
+                    <select id="gender">
+                        <option value="male">Male</option>
+                        <option value="female">Female</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Health Considerations:</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="health" value="heart"> Heart Problems
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="health" value="back"> Back Pain
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="health" value="knee"> Knee Issues
+                        </label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Exercise Focus:</label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="exercise" value="arms"> Arms
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="exercise" value="legs"> Legs
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" name="exercise" value="core"> Core
+                        </label>
+                    </div>
+                </div>
+                <button type="submit">Generate Routine</button>
+            </form>
+        </div>
+
+        <div id="routineResult" class="routine-result"></div>
+    </div>
+
+    <script>
+        document.getElementById('userForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const userData = {
+                name: document.getElementById('name').value,
+                age: document.getElementById('age').value,
+                gender: document.getElementById('gender').value,
+                health: [...document.querySelectorAll('input[name="health"]:checked')].map(c => c.value),
+                exercises: [...document.querySelectorAll('input[name="exercise"]:checked')].map(c => c.value)
+            };
+
+            const routine = generateRoutine(userData);
+            const resultDiv = document.getElementById('routineResult');
+            resultDiv.innerHTML = routine;
+            resultDiv.style.display = 'block';
+            resultDiv.classList.add('fade-in');
+        });
+
+        function generateRoutine(user) {
+            let routineHTML = `<h2>${user.name}'s Custom Workout Plan</h2>`;
+            
+            // Health warnings
+            if (user.health.length > 0) {
+                routineHTML += `<div class="health-warning"><h3>Health Considerations:</h3><ul>`;
+                user.health.forEach(issue => {
+                    routineHTML += `<li>${issue.charAt(0).toUpperCase() + issue.slice(1)}</li>`;
+                });
+                routineHTML += `</ul></div>`;
+            }
+
+            // Exercise plans
+            routineHTML += `<div class="exercise-plan"><h3>Recommended Exercises:</h3>`;
+            
+            const workoutPlans = {
+                arms: {
+                    normal: ['Bicep Curls (3x12)', 'Tricep Dips (3x15)', 'Hammer Curls (3x10)'],
+                    heart: ['Light Resistance Band Curls (3x10)', 'Overhead Tricep Extension (3x12)']
+                },
+                legs: {
+                    normal: ['Squats (3x15)', 'Lunges (3x10 per leg)', 'Leg Press (3x12)'],
+                    knee: ['Step-ups (3x10)', 'Glute Bridges (3x15)', 'Seated Leg Extensions (3x12)']
+                },
+                core: {
+                    normal: ['Plank (3x1min)', 'Russian Twists (3x20)', 'Leg Raises (3x15)'],
+                    back: ['Bird Dogs (3x10)', 'Dead Bug (3x12)', 'Modified Crunches (3x15)']
+                }
+            };
+
+            const healthRestrictions = {
+                heart: { intensity: 'low', exclude: ['high intensity'] },
+                back: { focus: 'core', modify: ['avoid heavy lifting'] },
+                knee: { focus: 'legs', modify: ['low impact'] }
+            };
+
+            user.exercises.forEach(exercise => {
+                routineHTML += `<h4>${exercise.charAt(0).toUpperCase() + exercise.slice(1)} Routine:</h4><ul>`;
+                
+                let exercises = workoutPlans[exercise].normal;
+                user.health.forEach(issue => {
+                    if (workoutPlans[exercise][issue]) {
+                        exercises = workoutPlans[exercise][issue];
+                    }
+                });
+
+                exercises.forEach(ex => {
+                    routineHTML += `<li>${ex}</li>`;
+                });
+                routineHTML += `</ul>`;
+            });
+
+            routineHTML += `</div>`;
+            return routineHTML;
+        }
+    </script>
+</body>
+</html>

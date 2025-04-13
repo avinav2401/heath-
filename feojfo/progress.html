@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Progress Tracker | ProFitness Gym</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f4f6f9;
+      margin: 0;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2c3e50;
+      padding: 1rem;
+      color: white;
+      text-align: center;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    h2, h3 {
+      color: #2c3e50;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+      color: #34495e;
+    }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      padding: 0.75rem;
+      font-size: 1rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #27ae60;
+      color: white;
+      padding: 1rem 2rem;
+      border: none;
+      border-radius: 6px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #2ecc71;
+    }
+
+    .progress-history {
+      margin-top: 3rem;
+    }
+
+    .history-item {
+      background-color: #ecf0f1;
+      padding: 1rem;
+      border-radius: 8px;
+      margin-bottom: 1rem;
+    }
+
+    .history-item h4 {
+      margin: 0 0 0.5rem;
+      color: #2980b9;
+    }
+
+    .history-item p {
+      margin: 0.3rem 0;
+      color: #2c3e50;
+    }
+
+    .bmi-status {
+      font-weight: bold;
+      padding: 0.5rem;
+      margin-top: 0.5rem;
+    }
+
+    .bmi-good {
+      color: green;
+    }
+
+    .bmi-bad {
+      color: red;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      background-color: #2c3e50;
+      color: white;
+      margin-top: 4rem;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>ProFitness Gym - Progress Tracker</h1>
+  </header>
+
+  <div class="container">
+    <h2>📊 Track Your Fitness Progress</h2>
+    
+    <form id="progressForm" onsubmit="saveProgress(event)">
+      <div class="form-group">
+        <label for="logDate">Date:</label>
+        <input type="date" id="logDate" required />
+      </div>
+
+      <div class="form-group">
+        <label for="weight">Weight (kg):</label>
+        <input type="number" id="weight" required />
+      </div>
+
+      <div class="form-group">
+        <label for="height">Height (cm):</label>
+        <input type="number" id="height" required />
+      </div>
+
+      <div class="form-group">
+        <label for="reps">Reps Done:</label>
+        <input type="number" id="reps" required />
+      </div>
+
+      <div class="form-group">
+        <label for="calories">Calories Burned:</label>
+        <input type="number" id="calories" required />
+      </div>
+
+      <div class="form-group">
+        <label for="muscleGroup">Muscle Group:</label>
+        <select id="muscleGroup" required>
+          <option value="">--Select--</option>
+          <option value="Arms">Arms</option>
+          <option value="Legs">Legs</option>
+          <option value="Core">Core</option>
+          <option value="Full Body">Full Body</option>
+        </select>
+      </div>
+
+      <button type="submit">Add Progress</button>
+    </form>
+
+    <div class="progress-history" id="progressOutput">
+      <h3>🏅 Progress History</h3>
+      <!-- Dynamic progress logs will appear here -->
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 ProFitness Gym. All Rights Reserved.</p>
+    <p>Follow us on social media for more tips and updates!</p>
+  </footer>
+
+  <script>
+    function saveProgress(event) {
+      event.preventDefault();
+
+      const date = document.getElementById('logDate').value;
+      const weight = parseFloat(document.getElementById('weight').value);
+      const height = parseFloat(document.getElementById('height').value);
+      const reps = document.getElementById('reps').value;
+      const calories = document.getElementById('calories').value;
+      const muscleGroup = document.getElementById('muscleGroup').value;
+
+      const bmi = weight / ((height / 100) ** 2);
+      const bmiStatus = (bmi >= 18.5 && bmi <= 24.9) ? 'Good' : 'Needs Attention';
+
+      const progressOutput = document.getElementById('progressOutput');
+      const entry = document.createElement('div');
+      entry.className = 'history-item';
+
+      entry.innerHTML = `
+        <h4>${new Date(date).toDateString()}</h4>
+        <p><strong>Weight:</strong> ${weight} kg</p>
+        <p><strong>Height:</strong> ${height} cm</p>
+        <p><strong>Reps:</strong> ${reps}</p>
+        <p><strong>Calories Burned:</strong> ${calories} kcal</p>
+        <p><strong>Muscle Group:</strong> ${muscleGroup}</p>
+        <p class="bmi-status ${bmiStatus === 'Good' ? 'bmi-good' : 'bmi-bad'}">
+          <strong>BMI:</strong> ${bmi.toFixed(1)} - ${bmiStatus}
+        </p>
+      `;
+
+      progressOutput.appendChild(entry);
+      document.getElementById('progressForm').reset();
+    }
+  </script>
+</body>
+</html>
